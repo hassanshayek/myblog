@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-3">
+            <!-- Sidebar -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">User Profile</h5>
+                    <p class="card-text">Welcome, {{ user.username }}!</p>
+                    <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+                </div>
+            </div>
+            <!-- End Sidebar -->
+        </div>
+        <div class="col-md-9">
+            <!-- Main Content -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Author Profile</h5>
+                    <div class="media-body">
+                        <h5 class="mt-0">{{ user.username }}</h5>
+                        <p>{{ user.bio }}</p>
+                        <p class="mb-0">Follow me on:</p>
+                        <ul>
+                            <li><a href="https://www.facebook.com/">Facebook</a></li>
+                            <li><a href="https://www.linkedin.com/">LinkedIn</a></li>
+                        </ul>
+                    </div>
+                    <h5 class="card-title">My Articles</h5>
+                    <ul>
+                        {% for article in author_articles %}
+                            <li><a href="{% url 'blog_detail' article.id %}">{{ article.title }}</a></li>
+                        {% empty %}
+                            <li>You haven't written any articles yet.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <!-- End Main Content -->
+        </div>
+    </div>
+</div>
+{% endblock %}

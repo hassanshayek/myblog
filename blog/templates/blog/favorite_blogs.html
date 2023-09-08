@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 style="text-align:center;">Your favorite blogs</h3>
+  <ul>
+    {% for blog in blogs %}
+      <li><a href="{% url 'blog_detail' blog_id=blog.id %}">{{ blog.title }}</a></li>
+    {% empty %}
+      <li>No favorite blogs yet.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

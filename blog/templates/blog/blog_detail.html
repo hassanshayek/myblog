@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">{{ blog.title }}</h2>
+                    <p class="card-text">{{ blog.body }}</p>
+                    <h6 class="card-text">Category: {{ blog.category.name }}</h6>
+                    <h6 class="card-text">Author: {{ blog.author.username }}</h6>
+                    <h6 class="card-text">Published on: {{ blog.date|date:"F d, Y" }}</h6>
+
+
+                    <h5>Reviews:</h5>
+                    {% if blog.blogreview_set.all %}
+                        <ul>
+                            {% for review in blog.blogreview_set.all %}
+                                <li>
+                                    <strong>Rating:</strong> {{ review.rating }}<br>
+                                    <strong>Review:</strong> {{ review.review_text }}<br>
+                                    <strong>By:</strong> {{ review.user.username }}<br>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No reviews yet.</p>
+                    {% endif %}
+                    
+                    <a href="{% url 'leave_review' blog_id=blog.id %}" class="btn btn-primary">Add Review</a>
+
+                    {% if user.is_authenticated and user == blog.author %}
+                    <a style=" margin-top: 5px;" href="{% url 'edit_blog' blog.id %}" class="btn btn-primary">Edit</a>
+                    <a style=" margin-top: 5px;" href="{% url 'delete_blog' blog.id %}" class="btn btn-danger">Delete</a>                
+                    {% endif %}
+
+                    <form style=" margin-top: 5px;" method="post" action="{% url 'save_favorite' blog.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">Save as Favorite</button>
+                    </form>
+
+                    <a style=" margin-top: 5px;" href="{% url 'blog_list' %}" class="btn btn-secondary">Back to Blog List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

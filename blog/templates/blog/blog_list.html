@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Morning Diary</title>
+    <!-- Add Bootstrap CSS link here -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add your custom CSS link here if needed -->
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">The Morning Diary</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/blog/blog_list">Blog</a>
+            </li>
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/blog/create_blog/">Create Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/accounts/profile/">Profile</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/accounts/login/">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/accounts/register/">Register</a>
+                </li>
+            {% endif %}
+        </ul>
+  
+        <!-- Search Bar -->
+        <form class="form-inline my-2 my-lg-0" action="{% url 'blog_search' %}" method="get">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav> 
+
+   <div style = "text-align: center;" class="card-footer ">  
+    <h1 style = "text-align: center; color: orange;  margin-top: 18px;" >Blog List</h1>
+    <ul>
+        {% for blog in blogs %}  
+                <h2 style = "margin-top: 40px; text-align: center;" ><a href="{% url 'blog_detail' blog.id %}">{{ blog.title }}</a></h2>
+                <p>{{ blog.body }}</p>
+
+                <div style = "text-align: center;" class="card-footer text-muted">  
+                <p>Author: {{ blog.author }} | Category: {{ blog.category }} | Date: {{ blog.date }} | Average Rating: {{ blog.avg_rating|default:"N/A" }}</p>
+                </div>
+        {% endfor %}
+      </ul>
+    </div>
+ </body>
+</html>

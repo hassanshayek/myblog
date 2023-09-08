@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Leave a Review for "{{ blog.title }}"</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      {{ form.rating.label_tag }}<br>
+      {{ form.rating }}
+    </div>
+    <div class="form-group">
+      {{ form.review_text.label_tag }}<br>
+      {{ form.review_text }}
+    </div>
+    <button type="submit">Submit Review</button>
+  </form>
+  <a href="{% url 'blog_detail' blog_id=blog.id %}">Back to Blog Post</a>
+{% endblock %}

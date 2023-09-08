@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for blog in blogs %}
+<div class="card-deck"> 
+  <div class="card">
+    <div class="card-body">
+      <h2 class="list-unstyled"> <a href=" {% url 'blog_detail' blog.id  %}"> {{ blog.title }} </a></h2>
+      {% if blog.body|length > 150 %} 
+      {{ blog.body|truncatechars:150 }}
+      <a href="{% url 'blog_detail' blog.id %}">Click here for more details</a>
+      {% else %}
+      {{ blog.body }}
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endfor %} 
+{% endblock %} 
